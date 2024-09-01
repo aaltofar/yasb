@@ -20,9 +20,11 @@ bars:
       position: "top"
       center: false
     blur_effect:
-      enabled: false
-      acrylic: false
-      dark: false
+      enabled: true # Blur effect will be applied to the bar
+      acrylic: false # Acrylic effect will be applied to the bar
+      dark_mode: true # Dark mode will add more shadow to the bar
+      round_corners: true # Default radius from OS
+      border_color: system # If is 'custom' you can control border color from styles.css, If is 'system' in that case OS will add default border color, otherwise you can set HEX color. (Related to round_corners option)
     window_flags:
       always_on_top: false
       windows_app_bar: true
@@ -51,21 +53,13 @@ bars:
           
           "media",
           "wifi",
-          #"disk",
-          #"battery",
-          #"language",
-          #"ip_info",
-          #"traffic",
           "cpu",
-          #"github",
           "weather",
           "memory",
-          #"wallapers",
           "volume",
           "power_menu"
         ]
 widgets:
-
   disk:
     type: "yasb.disk.DiskWidget"
     options:
@@ -76,7 +70,6 @@ widgets:
         callbacks:
           on_middle: "do_nothing"
           on_right: "exec explorer C:\\" # Open disk C in file explorer
-
   media:
     type: "yasb.media.MediaWidget"
     options:
@@ -97,7 +90,6 @@ widgets:
         next_track: "\ue893"
         play: "\ue768"
         pause: "\ue769"
-
   active_window:
     type: "yasb.active_window.ActiveWindowWidget"
     options:
@@ -109,7 +101,6 @@ widgets:
       max_length: 56
       max_length_ellipsis: "..."
       monitor_exclusive: true
-
   battery:
     type: "yasb.battery.BatteryWidget"
     options:
@@ -117,7 +108,6 @@ widgets:
       label_alt: "{icon} {percent}% | time: {time_remaining}"
       charging_options:
         icon_format: "{charging_icon}"
-
   clock:
     type: "yasb.clock.ClockWidget"
     options:
@@ -126,7 +116,6 @@ widgets:
       #locale: 'en_EN' # Langugae for date, you can set your own, example fr_FR
       timezones: [] #Looking up time zone info from registry
       #timezones: ["America/Montreal"]
-
   cpu:
     type: "yasb.cpu.CpuWidget"
     options:
@@ -146,7 +135,6 @@ widgets:
       histogram_num_columns: 8
       callbacks:
         on_right: "exec cmd /c Taskmgr"
-
   memory:
     type: "yasb.memory.MemoryWidget"
     options:
@@ -155,8 +143,6 @@ widgets:
       update_interval: 10000
       callbacks:
         on_right: "exec cmd /c Taskmgr"
-
-
   language:
     type: "yasb.language.LanguageWidget"
     options:
@@ -165,8 +151,6 @@ widgets:
       update_interval: 5 # 5 seconds
       callbacks:
         on_left: "toggle_label"
-
-
   komorebi_workspaces:
     type: "komorebi.workspaces.WorkspaceWidget"
     options:
@@ -177,7 +161,11 @@ widgets:
         label_zero_index: false
         hide_empty_workspaces: false
         hide_if_offline: false
-
+        container_padding:
+          top: 0
+          left: 0
+          bottom: 0
+          right: 0
   komorebi_active_layout:
     type: "komorebi.active_layout.ActiveLayoutWidget"
     options:
@@ -201,7 +189,6 @@ widgets:
         on_left: 'next_layout'
         on_middle: 'toggle_monocle'
         on_right: 'prev_layout'
-
   wifi:
     type: "yasb.wifi.WifiWidget"
     options:
@@ -212,7 +199,6 @@ widgets:
         on_left: "exec cmd.exe /c start ms-settings:network"
         on_middle: "do_nothing"
         on_right: "toggle_label"
-
   traffic:
     type: "yasb.traffic.TrafficWidget"
     options:
@@ -222,7 +208,6 @@ widgets:
       callbacks:
         on_left: "toggle_label"
         on_right: "exec cmd /c Taskmgr"
-
   ip_info:
     type: "yasb.custom.CustomWidget"
     options:
@@ -237,7 +222,6 @@ widgets:
         on_left: "toggle_label"
         on_middle: "exec cmd /c ncpa.cpl" # open network settings
         on_right: "exec cmd /c start https://ipinfo.io/{data[ip]} " # open ipinfo in browser
-
   weather:
     type: "yasb.weather.WeatherWidget"
     options:
@@ -262,7 +246,6 @@ widgets:
         default: "\uebaa"
         # https://www.weatherapi.com/docs/
         # Usage {temp_c}, {min_temp_c}, {max_temp_c}, {temp_f}, {min_temp_f}, {max_temp_f}, {location}, {humidity}, {icon}, {conditions}
-
   volume:
     type: "yasb.volume.VolumeWidget"
     options:
@@ -276,7 +259,6 @@ widgets:
         - "\uf028"  # Icon for 61-100% volume
       callbacks:
         on_right: "exec cmd.exe /c start ms-settings:sound"
-
   power_menu:
     type: "yasb.power_menu.PowerMenuWidget"
     options:
@@ -296,8 +278,6 @@ widgets:
         cancel: ["\udb81\udf3a","Cancel"]
         #force_shutdown: ["\uf011","Force Shut Down"]
         #force_restart: ["\uead2","Force Restart"]
- 
-
   apps:
     type: "yasb.applications.ApplicationsWidget"
     options:
@@ -315,8 +295,6 @@ widgets:
         - {icon: "\uf422", launch: "search"}
         #- {icon: "\udb84\udf55", launch: "widget"}
         # Currently available to use quick_settings, notification_center, search, widget, launcher (launcher will trigger ALT+A)
- 
-
   github:
     type: "yasb.github.GithubWidget"
     options:
@@ -331,7 +309,6 @@ widgets:
       menu_height: 400 
       menu_offset: 240 
       update_interval: 300 # Check for new notification in seconds
-
   wallapers:
     type: "yasb.wallpapers.WallpapersWidget"
     options:
@@ -339,7 +316,6 @@ widgets:
       image_path: "C:\\Users\\xxx\\Images" # Path to folder with images
       change_automatically: false # Automatically change wallpaper
       update_interval: 60 # If change_automatically is true, update interval in seconds
-
   nvidia_temp:
     type: "yasb.custom.CustomWidget"
     options:
@@ -350,7 +326,6 @@ widgets:
         run_cmd: "powershell nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader"
         run_interval: 10000 # run every 10 sec
         return_format: "string"
-
   win_button:
     type: "yasb.custom.CustomWidget"
     options:
