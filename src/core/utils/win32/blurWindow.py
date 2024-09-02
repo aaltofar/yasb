@@ -1,5 +1,5 @@
 import ctypes
-from ctypes.wintypes import DWORD, BOOL, HRGN, HWND
+from ctypes.wintypes import HWND
 
 user32 = ctypes.windll.user32
 dwm = ctypes.windll.dwmapi
@@ -71,10 +71,10 @@ def set_window_corner_preference(hwnd, preference, BorderColor):
     preference_value = ctypes.c_int(preference)
     dwm.DwmSetWindowAttribute(hwnd, DWMWA_WINDOW_CORNER_PREFERENCE, ctypes.byref(preference_value), ctypes.sizeof(preference_value))
    
-    if BorderColor == "custom": 
-        # Set transparent border color so we can define color in styles.css
+    if BorderColor == "None": 
+        # Set transparent border color
         border_color_value = ctypes.c_int(DWMWA_COLOR_NONE)
-    elif BorderColor == "system":
+    elif BorderColor == "System":
         # Set system default color
         border_color_value = ctypes.c_int(DWMWA_COLOR_DEFAULT)
     else:
@@ -83,13 +83,8 @@ def set_window_corner_preference(hwnd, preference, BorderColor):
  
     dwm.DwmSetWindowAttribute(hwnd, DWMWA_BORDER_COLOR, ctypes.byref(border_color_value), ctypes.sizeof(border_color_value))
 
-def Blur(hwnd, Acrylic=False, DarkMode=False, RoundCorners=False, BorderColor="custom"):
-     
-    hwnd = int(hwnd) 
+def Blur(hwnd, Acrylic=False, DarkMode=False, RoundCorners=False, BorderColor="System"):
+    hwnd = int(hwnd)
     add_blur(hwnd, Acrylic, DarkMode)
     if RoundCorners:
-        set_window_corner_preference(hwnd, DWMWCP_ROUND, BorderColor)
-    else:
-        set_window_corner_preference(hwnd, DWMWCP_DEFAULT, BorderColor)    
-        
-        
+        set_window_corner_preference(hwnd, DWMWCP_ROUND, BorderColor)       
